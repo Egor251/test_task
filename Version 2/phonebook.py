@@ -35,27 +35,33 @@ elif args.action == 'search':  # поиск по параметрам
     if mobile_phone:
         line += f"(self.dataframe['mobile_phone'] == '{mobile_phone}' ) &"
     line = line[:-1]
+    Main().search(line)
 elif args.action == 'change':  # Изменение значения в записи
     for item in args_list:
         if item:
+            print(item)
             Main().dataframe.replace([item], change)
             Main().write_file()
 elif args.action == 'remove':  # Удаление записи
     line = ''
     if last_name:
-        line += f"(self.dataframe['last_name'] == '{last_name}' ) &"
+        line += f"(Main().dataframe['last_name'] == '{last_name}' ) &"
     if first_name:
-        line += f"(self.dataframe['first_name'] == '{first_name}' ) &"
+        line += f"(Main().dataframe['first_name'] == '{first_name}' ) &"
     if second_name:
-        line += f"(self.dataframe['second_name'] == '{second_name}' ) &"
+        line += f"(Main().dataframe['second_name'] == '{second_name}' ) &"
     if home_phone:
-        line += f"(self.dataframe['home_phone'] == '{home_phone}' ) &"
+        line += f"(Main().dataframe['home_phone'] == '{home_phone}' ) &"
     if mobile_phone:
-        line += f"(self.dataframe['mobile_phone'] == '{mobile_phone}' ) &"
+        line += f"(Main().dataframe['mobile_phone'] == '{mobile_phone}' ) &"
     line = line[:-1]
+    print(line)
     index = eval(f"Main().dataframe.index[{line}].tolist()")
     Main().dataframe.drop(labels=[index], axis=0, inplace=True)
     Main().write_file()
 else:
     print('Wrong argument -a')
 print(args)
+
+
+
