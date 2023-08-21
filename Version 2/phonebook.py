@@ -57,7 +57,7 @@ elif args.action == 'remove':  # Удаление записи
     line = line[:-1]
     print(line)
     index = eval(f"Main().dataframe.index[{line}].tolist()")
-    Main().dataframe.drop(labels=[index], axis=0, inplace=True)
+    Main().dataframe.drop(labels=[index])
     Main().write_file()
 else:
     print('Wrong argument -a')
