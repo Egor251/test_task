@@ -42,11 +42,11 @@ class Main:
             #print(result_data)
         return result_data
 
-    def write_file(self):  # записываем файл (будет выполняться при каждо действии)
+    def write_file(self):  # записываем файл (будет выполняться при каждом действии)
         data = self.dataframe
         with open(self.file, 'w', encoding='UTF-8') as f:
             totalline = ''
-            for i in range(len(data)):
+            for i in data.index:
                 line = ''
                 item = data.loc[i].values.tolist()
                 for val in item:
@@ -76,7 +76,21 @@ class Main:
         res = eval(f"self.dataframe.loc[{ask}]")
         print(res)
 
+    def remove(self, line):
+        self.dataframe.reset_index(drop=True)
+        index = eval(f"Main().dataframe.index[{line}].tolist()")
+        print(index)
+        self.dataframe.drop(labels=index, inplace=True)
+
+        print(self.dataframe)
+        self.dataframe.reset_index(drop=True)
+        self.write_file()
+
+    def change(self, item, change):
+        self.dataframe = self.dataframe.replace(item, change)
+        print(self.dataframe)
+        self.write_file()
 
 if __name__ == '__main__':
     a = Main().read_file()
-
+    Main().remove("Main().dataframe['last_name'] == 'Иванов'")
