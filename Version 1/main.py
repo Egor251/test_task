@@ -79,8 +79,8 @@ class Main:
     def remove(self, line):
         self.dataframe.reset_index(drop=True)
         index = eval(f"Main().dataframe.index[{line}].tolist()")
-        print(index)
-        self.dataframe.drop(labels=index, inplace=True)
+        if len(index) > 0:
+            self.dataframe.drop(labels=index, inplace=True)
 
         print(self.dataframe)
         self.dataframe.reset_index(drop=True)

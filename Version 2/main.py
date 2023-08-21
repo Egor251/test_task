@@ -2,7 +2,7 @@ import pandas as pd
 
 
 class Main:
-    file = 'data.csv'
+    file = 'data.txt'
     dataframe = None  # послужит заменой БД, по условию задачи файл хранилище дложен быть текстовым и так удобней
 
     def __init__(self):
@@ -10,11 +10,15 @@ class Main:
 
     def read_file(self):  # Стартовая операция, загружаем df из файла
 
-        result_data = pd.read_csv(self.file, delimiter=',')
+        result_data = pd.read_csv('data.csv', delimiter=',')
+        result_data = result_data.rename(columns={'last_name\n': 'last_name', 'first_name': 'first_name', 'second_name\n': 'second_name', 'organisation': 'organisation',
+       'home_phone': 'home_phone', 'mobile_phone': 'mobile_phone'})
+
         return result_data
 
-    def write_file(self):  # записываем файл (будет выполняться при каждо действии)
-        self.dataframe.to_csv(self.file)
+    def write_file(self):  # записываем файл (будет выполняться при каждом действии)
+        self.dataframe.to_csv('data.csv')
+
 
     def add_line(self, line):  # Добавляем новую запись
         new_line = {'last_name': [line[0]],
@@ -37,8 +41,21 @@ class Main:
         res = eval(f"self.dataframe.loc[{ask}]")
         print(res)
 
+    def remove(self, line):
+        self.dataframe.reset_index(drop=True)
+        index = eval(f"Main().dataframe.index[{line}].tolist()")
+        if len(index) > 0:
+            self.dataframe.drop(labels=index, inplace=True)
+
+        print(self.dataframe)
+        self.dataframe.reset_index(drop=True)
+        self.write_file()
+
+    def change(self, item, change):
+        self.dataframe = self.dataframe.replace(item, change)
+        print(self.dataframe)
+        self.write_file()
 
 if __name__ == '__main__':
     a = Main().read_file()
-    Main().write_file()
-    print(a)
+    Main().remove("Main().dataframe['last_name'] == 'Петров'")
